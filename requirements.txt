@@ -5,7 +5,6 @@ fastapi-cli==0.0.7
 gradio==5.35.0
 langchain-community==0.3.26
 langchain-google-genai==2.1.5
-numpy==2.3.1
 pandas==2.3.0
 requests==2.32.4
 
