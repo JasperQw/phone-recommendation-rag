@@ -83,21 +83,6 @@ def get_fx_rate(src: str, tgt: str = "MYR") -> float:
     raise RuntimeError(f"No FX data for {src}->{tgt}")
 
 def convert_price_to_myr(raw: str) -> str:
-    """
-    Convert the first price found in *raw* to Malaysian Ringgit and
-    return **only** the RM value (e.g. "RM 4 495").
-
-    • Handles formats such as:
-        "$ 270.54 / € 226.00"
-        "$ 270.54"
-        "About 870 EUR"
-        "870 EUR"
-        "EUR 870"
-    • Ignores any additional currency tokens once the first valid one
-      has been converted.
-    • Falls back to the snapshot rates in `get_fx_rate()` if the
-      exchangerate.host API is unreachable.
-    """
     sym2ccy = {"$": "USD", "€": "EUR", "£": "GBP", "₹": "INR"}
 
     # --- 1. find the first recognisable price token ----------------------
@@ -134,11 +119,6 @@ def convert_price_to_myr(raw: str) -> str:
 
 # ────────────────────────── core scraping logic ────────────────────────────
 def fetch_specs(url: str) -> Dict[str, Dict[str, str]]:
-    """
-    Return {section: {field: value}} for one phone.
-    • keeps row0 data
-    • joins continuation rows with ', '
-    """
     html = requests.get(url, headers=HEADERS, timeout=15).text
     soup = BeautifulSoup(html, "html.parser")
 
